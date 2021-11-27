@@ -155,16 +155,21 @@ exports.getAllProperties = getAllProperties;
  */
 const addProperty = function (property) {
   const queryParams = [];
- let queryString=`insert into properties (`;
-  for(const col in property)
-  {
+  let queryString = `insert into properties (`;
+  for (const col in property) {
     queryString += `${col}, `;
-    if(col === 'owner_id' || col === 'parking_spaces' || col === 'number_of_bathrooms' || col === 'number_of_bedrooms')
+    if (
+      col === "owner_id" ||
+      col === "parking_spaces" ||
+      col === "number_of_bathrooms" ||
+      col === "number_of_bedrooms"
+    )
       queryParams.push(Number(property[col]));
-    else
-      queryParams.push(property[col]);
+    else queryParams.push(property[col]);
   }
-  queryString = queryString.substring(0, queryString.length - 2) + `) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`;
+  queryString =
+    queryString.substring(0, queryString.length - 2) +
+    `) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`;
   return pool
     .query(queryString, queryParams)
     .then((result) => {
